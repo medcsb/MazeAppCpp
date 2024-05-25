@@ -23,7 +23,7 @@ public:
 private:
     int x; 
     int y;
-    char type; // 'W' for wall, 'S' for start, 'E' for end, 'P' for path
+    char type; // '#' for wall, 'S' for start, 'E' for end, '*' for empty
     Coords coords;
 };
 

@@ -10,7 +10,7 @@ void Maze::setUpEmptyMaze() {
         vector<MazeBox> row;
         row.reserve(cols);
         for (int j = 0; j < cols; j++) {
-            row.emplace_back(MazeBox(i, j, 'E'));
+            row.emplace_back(MazeBox(i, j, '*'));
         }
         boxes.push_back(move(row));
     }
@@ -79,7 +79,9 @@ string Maze::to_string() const {
         for (int j = 0; j < cols; j++) {
             mazeStr += boxes[i][j].getType();
         }
-        mazeStr += "\n";
+        if (i != rows - 1) {
+            mazeStr += "\n";
+        }
     }
     return mazeStr;
 }
@@ -97,4 +99,9 @@ const vector<vector<MazeBox>>& Maze::getBoxes() const {
 }
 const MazeBox& Maze::getBox(int x, int y) const {
     return boxes[x][y];
+}
+
+// Setters
+void Maze::setBox(int row, int col, const char& type) {
+    boxes[row][col].setType(type);
 }
