@@ -15,6 +15,7 @@ int main()
     timeTaken(testMazeString);
     timeTaken(testMazeSave);
     timeTaken(testMazeLoad);
+    timeTaken(testGetNeighbours);
     return 0;
 }
 
@@ -27,7 +28,7 @@ void testMazeCreation() {
             std::cout << "Maze creation failed " << CROSS_EMOJI << std::endl;
             return;
         }
-        vector<vector<MazeBox>> boxes = maze.getBoxes();
+        std::vector<std::vector<MazeBox>> boxes = maze.getBoxes();
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (boxes[i][j].getType() != '*') {
@@ -38,6 +39,7 @@ void testMazeCreation() {
         }
         std::cout << "Empty maze created successfully " << CHECK_EMOJI << std::endl;
     });
+    return;
 }
 
 void testMazePrint() {
@@ -46,6 +48,7 @@ void testMazePrint() {
     Maze maze(rows, cols);
     std::cout << "Printing maze of size " << rows << "x" << cols << std::endl;
     maze.printMaze();
+    return;
 }
 
 void testMazeString() {
@@ -58,7 +61,7 @@ void testMazeString() {
     maze.setBox(3, 3, '#');
     maze.setBox(3, 4, '#');
     maze.setBox(3, 5, 'E');
-    string mazeStr = "S##***\n";
+    std::string mazeStr = "S##***\n";
           mazeStr += "******\n";
           mazeStr += "******\n";
           mazeStr += "***##E";
@@ -67,6 +70,7 @@ void testMazeString() {
         return;
     }
     std::cout << "Maze to String successful " << CHECK_EMOJI << std::endl;
+    return;
 }
 
 void testMazeSave() {
@@ -81,9 +85,9 @@ void testMazeSave() {
     // ./saves/testMaze.txt
     maze.saveToFile("./saves/testMazeSave.txt");
     // Read the file and compare
-    ifstream file("./saves/testMazeSave.txt");
+    std::ifstream file("./saves/testMazeSave.txt");
     if (file.is_open()) {
-        string line;
+        std::string line;
         int i = 0;
         while (getline(file, line)) {
             for (int j = 0; j < line.size(); j++) {
@@ -97,6 +101,7 @@ void testMazeSave() {
         file.close();
     }
     std::cout << "Maze save successful " << CHECK_EMOJI << std::endl;
+    return;
 }
 
 void testMazeLoad() {
@@ -104,14 +109,14 @@ void testMazeLoad() {
     int rows = 3;
     int cols = 5;
     // write to file
-    ofstream file("./saves/testMazeLoad.txt");
+    std::ofstream file("./saves/testMazeLoad.txt");
     if (file.is_open()) {
         file << "S##**\n";
         file << "*****\n";
         file << "#*##E";
         file.close();
     }
-    string mazestr = "S##**";
+    std::string mazestr = "S##**";
     mazestr += "*****";
     mazestr += "#*##E";
     // Load from file
@@ -127,7 +132,41 @@ void testMazeLoad() {
         }
     }
     std::cout << "Maze load successful " << CHECK_EMOJI << std::endl;
+    return;
 }
-                
-    
 
+void testGetNeighbours() {
+    int rows = 3;
+    int cols = 4;
+    Maze maze(rows, cols);
+    std::vector<MazeBox> neighbours1 = maze.getNeighbours(maze.getBox(0, 0));
+    std::vector<MazeBox> expected1 = {maze.getBox(0, 1), maze.getBox(1, 0)};
+    std::vector<MazeBox> neighbours2 = maze.getNeighbours(maze.getBox(2, 3));
+    std::vector<MazeBox> expected2 = {maze.getBox(2, 2), maze.getBox(1, 3)};
+    std::vector<MazeBox> neighbours3 = maze.getNeighbours(maze.getBox(1, 1));
+    std::vector<MazeBox> expected3 = {maze.getBox(1, 0), maze.getBox(0, 1), maze.getBox(1, 2), maze.getBox(2, 1)};
+    std::vector<MazeBox> neighbours4 = maze.getNeighbours(maze.getBox(0, 2));
+    std::vector<MazeBox> expected4 = {maze.getBox(0, 1), maze.getBox(0, 3), maze.getBox(1, 2)};
+    if (neighbours1 != expected1) {
+        std::cout << "get neighbours failed " << CROSS_EMOJI << std::endl;
+        std::cout << "on edge case (0, 0)" << std::endl;
+        return;
+    }
+    if (neighbours2 != expected2) {
+        std::cout << "get neighbours failed " << CROSS_EMOJI << std::endl;
+        std::cout << "on edge case (2, 3)" << std::endl;
+        return;
+    }
+    if (neighbours3 != expected3) {
+        std::cout << "get neighbours failed " << CROSS_EMOJI << std::endl;
+        std::cout << "on middle case (1, 1)" << std::endl;
+        return;
+    }
+    if (neighbours4 != expected4) {
+        std::cout << "get neighbours failed " << CROSS_EMOJI << std::endl;
+        std::cout << "on middle case (0, 2)" << std::endl;
+        return;
+    }
+    std::cout << "get neighbours successful " << CHECK_EMOJI << std::endl;
+    return;
+}

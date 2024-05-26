@@ -1,7 +1,6 @@
 #ifndef MAZEBOX_HPP
 #define MAZEBOX_HPP
 
-#include <iostream>
 
 typedef struct {
     int x;
@@ -19,10 +18,13 @@ public:
     char getType() const;
     // Setters
     void setType(const char& type);
+    // Overload the ==/!= operators
+    bool operator==(const MazeBox& other) const;
+    bool operator!=(const MazeBox& other) const;
 
 private:
-    int x; 
-    int y;
+    int x; // row
+    int y; // col
     char type; // '#' for wall, 'S' for start, 'E' for end, '*' for empty
     Coords coords;
 };

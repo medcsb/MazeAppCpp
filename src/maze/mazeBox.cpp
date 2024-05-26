@@ -26,3 +26,12 @@ char MazeBox::getType() const {
 void MazeBox::setType(const char& type) {
     this->type = type;
 }
+
+// Overload the == and != operators
+bool MazeBox::operator==(const MazeBox& other) const {
+    return x == other.x && y == other.y && type == other.type;
+}
+
+bool MazeBox::operator!=(const MazeBox& other) const {
+    return !(*this == other);
+}

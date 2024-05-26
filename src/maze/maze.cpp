@@ -7,7 +7,7 @@ Maze::Maze(int rows, int cols)
 void Maze::setUpEmptyMaze() {
     boxes.reserve(rows);
     for (int i = 0; i < rows; i++) {
-        vector<MazeBox> row;
+        std::vector<MazeBox> row;
         row.reserve(cols);
         for (int j = 0; j < cols; j++) {
             row.emplace_back(MazeBox(i, j, '*'));
@@ -20,48 +20,49 @@ void Maze::setUpEmptyMaze() {
 void Maze::printMaze() const {
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
-            cout << boxes[i][j].getType() << " ";
+            std::cout << boxes[i][j].getType() << " ";
         }
-        cout << endl;
+        std::cout << std::endl;
     }
 }
 
 bool Maze::isOutOfBound(int x, int y) const {
-    return x <= 0 || x >= rows || y <= 0 || y >= cols;
+    return x < 0 || x >= rows || y < 0 || y >= cols;
 }
 
-const vector<MazeBox>& Maze::getNeighbors(MazeBox& box) const {
-    vector<MazeBox> neighbours;
-    addNeighbour(box.getX() - 1, box.getY(), neighbours);
-    addNeighbour(box.getX() + 1, box.getY(), neighbours);
-    addNeighbour(box.getX(), box.getY() - 1, neighbours);
-    addNeighbour(box.getX(), box.getY() + 1, neighbours);
+const std::vector<MazeBox> Maze::getNeighbours(const MazeBox& box) const {
+    std::vector<MazeBox> neighbours;
+    addNeighbour(box.getX(), box.getY() - 1, neighbours); // Left
+    addNeighbour(box.getX() - 1, box.getY(), neighbours); // Up
+    addNeighbour(box.getX(), box.getY() + 1, neighbours); // Right
+    addNeighbour(box.getX() + 1, box.getY(), neighbours); // Down
     return neighbours;
 }
 
-void Maze::addNeighbour(int x, int y, vector<MazeBox>& neighbours) const {
+void Maze::addNeighbour(int x, int y, std::vector<MazeBox>& neighbours) const {
     if (!isOutOfBound(x, y)) {
         neighbours.push_back(boxes[x][y]);
     }
+    return;
 }
 
-void Maze::saveToFile(const string& fileName) const {
-    ofstream file(fileName);
+void Maze::saveToFile(const std::string& fileName) const {
+    std::ofstream file(fileName);
     if (file.is_open()) {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 file << boxes[i][j].getType();
             }
-            file << endl;
+            file << std::endl;
         }
         file.close();
     }
 }
 
-void Maze::loadFromFile(const string& fileName) {
-    ifstream file(fileName);
+void Maze::loadFromFile(const std::string& fileName) {
+    std::ifstream file(fileName);
     if (file.is_open()) {
-        string line;
+        std::string line;
         int i = 0;
         while (getline(file, line)) {
             for (int j = 0; j < line.size(); j++) {
@@ -73,8 +74,8 @@ void Maze::loadFromFile(const string& fileName) {
     }
 }
 
-string Maze::to_string() const {
-    string mazeStr = "";
+std::string Maze::to_string() const {
+    std::string mazeStr = "";
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
             mazeStr += boxes[i][j].getType();
@@ -94,7 +95,7 @@ int Maze::getHeight() const {
 int Maze::getWidth() const {
     return cols;
 }
-const vector<vector<MazeBox>>& Maze::getBoxes() const {
+const std::vector<std::vector<MazeBox>>& Maze::getBoxes() const {
     return boxes;
 }
 const MazeBox& Maze::getBox(int x, int y) const {

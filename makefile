@@ -49,8 +49,8 @@ $(BIN_DIR)/%.o: $(GUI_DIR)/%.cpp
 # Clean up
 clean:
 ifeq ($(OS),Windows_NT)
-	del /Q $(BIN_DIR)\*.o
-	del /Q $(BIN_DIR)\*.exe
+	rm $(BIN_DIR)/*.o
+	rm $(BIN_DIR)/*.exe
 else
 	rm -f $(BIN_DIR)/*.o $(MAZE_EXECUTABLE) $(GUI_EXECUTABLE)
 endif
