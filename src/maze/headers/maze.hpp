@@ -12,6 +12,7 @@ class Maze{
 public:
 // Constructor
 Maze(int rows, int cols);
+Maze();
 
 void setUpEmptyMaze();
 // Methods *********************************************************************
@@ -22,6 +23,8 @@ void addNeighbour(int x, int y, std::vector<MazeBox>& neighbours) const;
 bool isOutOfBound(int x, int y) const;
 void saveToFile(const std::string& fileName) const;
 void loadFromFile(const std::string& fileName);
+void saveRawBinary(const std::string& fileName) const;
+void loadRawBinary(const std::string& fileName);
 std::string to_string() const;
 
 // Methods *********************************************************************

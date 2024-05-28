@@ -4,6 +4,9 @@ Maze::Maze(int rows, int cols)
     : rows(rows), cols(cols) {
     setUpEmptyMaze();
     }
+
+Maze::Maze() : rows(0), cols(0), boxes() {}
+
 void Maze::setUpEmptyMaze() {
     boxes.reserve(rows);
     for (int i = 0; i < rows; i++) {
@@ -61,16 +64,63 @@ void Maze::saveToFile(const std::string& fileName) const {
 
 void Maze::loadFromFile(const std::string& fileName) {
     std::ifstream file(fileName);
+    // count rows and cols
     if (file.is_open()) {
         std::string line;
-        int i = 0;
+        rows = 0;
+        cols = 0;
         while (getline(file, line)) {
+            cols = (cols == 0) ? line.size() : cols;
+            rows++;
+        }
+        file.close();
+    }
+    this->rows = rows;
+    this->cols = cols;
+    this->setUpEmptyMaze();
+    std::ifstream file1(fileName);
+    if (file1.is_open()) {
+        std::string line;
+        int i = 0;
+        while (getline(file1, line)) {
             for (int j = 0; j < line.size(); j++) {
                 boxes[i][j].setType(line[j]);
             }
             i++;
         }
-        file.close();
+        file1.close();
+    }
+}
+
+void Maze::saveRawBinary(const std::string& filename) const {
+    std::ofstream file(filename, std::ios::binary);
+    int rows = this->getHeight();
+    int cols = this->getWidth();
+    file.write(reinterpret_cast<const char*>(&rows), sizeof(rows));
+    file.write(reinterpret_cast<const char*>(&cols), sizeof(cols));
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            char type = this->boxes[i][j].getType();
+            file.write(&type, sizeof(type));
+        }
+    }
+}
+
+void Maze::loadRawBinary(const std::string& filename) {
+    std::ifstream file(filename, std::ios::binary);
+    int rows, cols;
+    file.read(reinterpret_cast<char*>(&rows), sizeof(rows));
+    file.read(reinterpret_cast<char*>(&cols), sizeof(cols));
+
+    // Reinitialize the maze with the new size
+    *this = Maze(rows, cols);
+
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            char type;
+            file.read(&type, sizeof(type));
+            this->boxes[i][j].setType(type);
+        }
     }
 }
 

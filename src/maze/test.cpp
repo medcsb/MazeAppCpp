@@ -16,6 +16,7 @@ int main()
     timeTaken(testMazeSave);
     timeTaken(testMazeLoad);
     timeTaken(testGetNeighbours);
+    timeTaken(testRawBinarySave);
     return 0;
 }
 
@@ -105,10 +106,8 @@ void testMazeSave() {
 }
 
 void testMazeLoad() {
-    // Write to file
     int rows = 3;
     int cols = 5;
-    // write to file
     std::ofstream file("./saves/testMazeLoad.txt");
     if (file.is_open()) {
         file << "S##**\n";
@@ -120,7 +119,7 @@ void testMazeLoad() {
     mazestr += "*****";
     mazestr += "#*##E";
     // Load from file
-    Maze maze(rows, cols);
+    Maze maze = Maze();
     maze.loadFromFile("./saves/testMazeLoad.txt");
     // Compare
     for (int i = 0; i < rows; i++) {
@@ -168,5 +167,20 @@ void testGetNeighbours() {
         return;
     }
     std::cout << "get neighbours successful " << CHECK_EMOJI << std::endl;
+    return;
+}
+
+void testRawBinarySave() {
+    int rows = 3820023;
+    int cols = 123423;
+    Maze maze(rows, cols);
+    maze.setBox(0, 0, 'S');
+    maze.setBox(0, 1, '#');
+    maze.setBox(0, 2, '#');
+    maze.setBox(3, 2, 'E');
+    maze.saveRawBinary("./savesRaw/testRawBinarySave.bin");
+    // Read the file and compare
+    Maze maze2 = Maze();
+    maze2.loadRawBinary("./savesRaw/testRawBinarySave.bin");
     return;
 }

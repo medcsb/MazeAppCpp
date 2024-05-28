@@ -13,6 +13,8 @@ void testMazeString();
 void testMazeSave();
 void testMazeLoad();
 void testGetNeighbours();
+void testRawBinarySave();
+void testRawBinaryLoad();
 
 template <typename func, typename... Args>
 void timeTaken(func&& f, Args&&... args) {
