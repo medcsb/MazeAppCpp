@@ -11,7 +11,7 @@
 class Maze{
 public:
 // Constructor
-Maze(unsigned short rows, unsigned short cols);
+Maze(ushort rows, ushort cols);
 Maze();
 
 void setUpEmptyMaze();
@@ -31,17 +31,17 @@ std::string to_string() const;
 
 // Methods *********************************************************************
 // Getters
-unsigned short getHeight() const;
-unsigned short getWidth() const;
+ushort getHeight() const;
+ushort getWidth() const;
 const std::vector<std::vector<MazeBox>>& getBoxes() const;
-const MazeBox& getBox(unsigned short x, unsigned short y) const;
+const MazeBox& getBox(ushort x, ushort y) const;
 const MazeBox& getBox(int x, int y) const;
 // Setters
-void setBox(unsigned short x, unsigned short y, const char& type);
+void setBox(ushort x, ushort y, const char& type);
 
 private:
-    unsigned short rows;
-    unsigned short cols;
+    ushort rows;
+    ushort cols;
     std::vector<std::vector<MazeBox>> boxes;
 };
 

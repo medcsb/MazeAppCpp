@@ -1,10 +1,11 @@
 #ifndef MAZEBOX_HPP
 #define MAZEBOX_HPP
 
+typedef unsigned short ushort;
 
 struct Coords{
-    unsigned short x;
-    unsigned short y;
+    ushort x;
+    ushort y;
     // overloaded operator to compare two Coords
     bool operator==(const Coords& other) const {
         return x == other.x && y == other.y;

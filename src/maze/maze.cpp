@@ -1,6 +1,6 @@
 #include "headers/maze.hpp"
 // Constructor
-Maze::Maze(unsigned short rows, unsigned short cols)
+Maze::Maze(ushort rows, ushort cols)
     : rows(rows), cols(cols) {
     setUpEmptyMaze();
     }
@@ -9,10 +9,10 @@ Maze::Maze() : rows(0), cols(0), boxes() {}
 
 void Maze::setUpEmptyMaze() {
     boxes.reserve(rows);
-    for (unsigned short i = 0; i < rows; i++) {
+    for (ushort i = 0; i < rows; i++) {
         std::vector<MazeBox> row;
         row.reserve(cols);
-        for (unsigned short j = 0; j < cols; j++) {
+        for (ushort j = 0; j < cols; j++) {
             row.emplace_back(MazeBox('*'));
         }
         boxes.push_back(move(row));
@@ -60,7 +60,7 @@ void Maze::addNeighbour(int x, int y, std::vector<MazeBox>& neighbours) const {
 
 void Maze::addNeighbour(int x, int y, std::vector<Coords>& neighbours) const {
     if (!isOutOfBound(x, y)) {
-        neighbours.push_back(Coords{static_cast<unsigned short>(x), static_cast<unsigned short>(y)});
+        neighbours.push_back(Coords{static_cast<ushort>(x), static_cast<ushort>(y)});
     }
     return;
 }
@@ -109,34 +109,45 @@ void Maze::loadFromFile(const std::string& fileName) {
 }
 
 void Maze::saveRawBinary(const std::string& filename) const {
-    std::ofstream file(filename, std::ios::binary);
-    int rows = this->getHeight();
-    int cols = this->getWidth();
+    std::fstream file(filename, std::ios::binary | std::ios::out);
+    if (!file.is_open()) {
+        std::cerr << "Error Creating save file" << std::endl;
+        return;
+    }
     file.write(reinterpret_cast<const char*>(&rows), sizeof(rows));
     file.write(reinterpret_cast<const char*>(&cols), sizeof(cols));
-    for (int i = 0; i < rows; ++i) {
-        for (int j = 0; j < cols; ++j) {
-            char type = this->boxes[i][j].getType();
+    char type;
+    for (int i = 0; i < this->rows; ++i) {
+        for (int j = 0; j < this->cols; ++j) {
+            type = this->boxes[i][j].getType();
             file.write(&type, sizeof(type));
         }
     }
 }
 
 void Maze::loadRawBinary(const std::string& filename) {
-    std::ifstream file(filename, std::ios::binary);
-    int rows, cols;
+    std::fstream file(filename, std::ios::binary | std::ios::in);
+    if (!file.is_open()) {
+        std::cerr << "Error Opening save file" << std::endl;
+        return;
+    }
+    ushort rows;
+    ushort cols;
     file.read(reinterpret_cast<char*>(&rows), sizeof(rows));
     file.read(reinterpret_cast<char*>(&cols), sizeof(cols));
-
-    // Reinitialize the maze with the new size
-    *this = Maze(rows, cols);
-
+    this->rows = rows;
+    this->cols = cols;
+    this->boxes.clear();
+    this->boxes.reserve(rows);
     for (int i = 0; i < rows; ++i) {
+        std::vector<MazeBox> row;
+        row.reserve(cols);
         for (int j = 0; j < cols; ++j) {
             char type;
             file.read(&type, sizeof(type));
-            this->boxes[i][j].setType(type);
+            row.emplace_back(MazeBox(type));
         }
+        this->boxes.push_back(row);
     }
 }
 
@@ -155,16 +166,16 @@ std::string Maze::to_string() const {
 
 // Methods *********************************************************************
 // Getters
-unsigned short Maze::getHeight() const {
+ushort Maze::getHeight() const {
     return rows;
 }
-unsigned short Maze::getWidth() const {
+ushort Maze::getWidth() const {
     return cols;
 }
 const std::vector<std::vector<MazeBox>>& Maze::getBoxes() const {
     return boxes;
 }
-const MazeBox& Maze::getBox(unsigned short x, unsigned short y) const {
+const MazeBox& Maze::getBox(ushort x, ushort y) const {
     return boxes[x][y];
 }
 
@@ -173,6 +184,6 @@ const MazeBox& Maze::getBox(int x, int y) const {
 }
 
 // Setters
-void Maze::setBox(unsigned short row, unsigned short col, const char& type) {
+void Maze::setBox(ushort row, ushort col, const char& type) {
     boxes[row][col].setType(type);
 }
