@@ -18,8 +18,10 @@ void setUpEmptyMaze();
 // Methods *********************************************************************
 
 void printMaze() const;
-const std::vector<MazeBox> getNeighbours(const MazeBox& box) const;
-void addNeighbour(unsigned short x, unsigned short y, std::vector<MazeBox>& neighbours) const;
+const std::vector<MazeBox> getNeighbours(int x, int y) const;
+const std::vector<Coords> getNeighboursCoords(int x, int y) const;
+void addNeighbour(int x, int y, std::vector<MazeBox>& neighbours) const;
+void addNeighbour(int x, int y, std::vector<Coords>& neighbours) const;
 bool isOutOfBound(int x, int y) const;
 void saveToFile(const std::string& fileName) const;
 void loadFromFile(const std::string& fileName);

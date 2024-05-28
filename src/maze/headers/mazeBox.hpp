@@ -2,31 +2,29 @@
 #define MAZEBOX_HPP
 
 
-typedef struct {
+struct Coords{
     unsigned short x;
     unsigned short y;
-} Coords;
+    // overloaded operator to compare two Coords
+    bool operator==(const Coords& other) const {
+        return x == other.x && y == other.y;
+    }
+    bool operator!=(const Coords& other) const {
+        return x != other.x || y != other.y;
+    }
+};
 
 class MazeBox {
 public:
     // Constructor
-    MazeBox(unsigned short x, unsigned short y, const char& type);
+    MazeBox(const char& type);
     // Getters
-    unsigned short getX() const;
-    unsigned short getY() const;
-    Coords getCoords() const;
     char getType() const;
     // Setters
     void setType(const char& type);
-    // Overload the ==/!= operators
-    bool operator==(const MazeBox& other) const;
-    bool operator!=(const MazeBox& other) const;
 
 private:
-    unsigned short x; // row
-    unsigned short y; // col
     char type; // '#' for wall, 'S' for start, 'E' for end, '*' for empty
-    Coords coords;
 };
 
 #endif // MAZEBOX_HPP

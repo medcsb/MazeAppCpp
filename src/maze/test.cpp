@@ -8,7 +8,7 @@ int main()
 #endif // _WIN32
     setlocale(LC_ALL, "en_US.UTF-8");
     // **************************************
-
+    std::cout << "size of mazeBox: " << sizeof(MazeBox) << std::endl;
     // Tests
     testMazeCreation();
     // testMazePrint();
@@ -29,7 +29,7 @@ void testMazeCreation() {
             std::cout << "Maze creation failed " << CROSS_EMOJI << std::endl;
             return;
         }
-        std::vector<std::vector<MazeBox>> boxes = maze.getBoxes();
+        //std::vector<std::vector<MazeBox>> boxes = maze.getBoxes();
         /*
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -140,14 +140,14 @@ void testGetNeighbours() {
     unsigned short rows = 3;
     unsigned short cols = 4;
     Maze maze(rows, cols);
-    std::vector<MazeBox> neighbours1 = maze.getNeighbours(maze.getBox(0, 0));
-    std::vector<MazeBox> expected1 = {maze.getBox(0, 1), maze.getBox(1, 0)};
-    std::vector<MazeBox> neighbours2 = maze.getNeighbours(maze.getBox(2, 3));
-    std::vector<MazeBox> expected2 = {maze.getBox(2, 2), maze.getBox(1, 3)};
-    std::vector<MazeBox> neighbours3 = maze.getNeighbours(maze.getBox(1, 1));
-    std::vector<MazeBox> expected3 = {maze.getBox(1, 0), maze.getBox(0, 1), maze.getBox(1, 2), maze.getBox(2, 1)};
-    std::vector<MazeBox> neighbours4 = maze.getNeighbours(maze.getBox(0, 2));
-    std::vector<MazeBox> expected4 = {maze.getBox(0, 1), maze.getBox(0, 3), maze.getBox(1, 2)};
+    std::vector<Coords> neighbours1 = maze.getNeighboursCoords(0, 0);
+    std::vector<Coords> expected1 = {Coords{0, 1}, Coords{1, 0}};
+    std::vector<Coords> neighbours2 = maze.getNeighboursCoords(2, 3);;
+    std::vector<Coords> expected2 = {Coords{2, 2}, Coords{1, 3}};
+    std::vector<Coords> neighbours3 = maze.getNeighboursCoords(1, 1);
+    std::vector<Coords> expected3 = {Coords{1, 0}, Coords{0, 1}, Coords{1, 2}, Coords{2, 1}};
+    std::vector<Coords> neighbours4 = maze.getNeighboursCoords(0, 2);
+    std::vector<Coords> expected4 = {Coords{0, 1}, Coords{0, 3}, Coords{1, 2}};
     if (neighbours1 != expected1) {
         std::cout << "get neighbours failed " << CROSS_EMOJI << std::endl;
         std::cout << "on edge case (0, 0)" << std::endl;

@@ -13,7 +13,7 @@ void Maze::setUpEmptyMaze() {
         std::vector<MazeBox> row;
         row.reserve(cols);
         for (unsigned short j = 0; j < cols; j++) {
-            row.emplace_back(MazeBox(i, j, '*'));
+            row.emplace_back(MazeBox('*'));
         }
         boxes.push_back(move(row));
     }
@@ -33,20 +33,34 @@ bool Maze::isOutOfBound(int x, int y) const {
     return x < 0 || x >= rows || y < 0 || y >= cols;
 }
 
-const std::vector<MazeBox> Maze::getNeighbours(const MazeBox& box) const {
+const std::vector<MazeBox> Maze::getNeighbours(int x, int y) const {
     std::vector<MazeBox> neighbours;
-    addNeighbour(box.getX(), box.getY() - 1, neighbours); // Left
-    addNeighbour(box.getX() - 1, box.getY(), neighbours); // Up
-    addNeighbour(box.getX(), box.getY() + 1, neighbours); // Right
-    addNeighbour(box.getX() + 1, box.getY(), neighbours); // Down
+    addNeighbour(x, y - 1, neighbours); // Left
+    addNeighbour(x - 1, y, neighbours); // Up
+    addNeighbour(x, y + 1, neighbours); // Right
+    addNeighbour(x + 1, y, neighbours); // Down
     return neighbours;
 }
 
-void Maze::addNeighbour(unsigned short x, unsigned short y, std::vector<MazeBox>& neighbours) const {
-    x = static_cast<int>(x);
-    y = static_cast<int>(y);
+const std::vector<Coords> Maze::getNeighboursCoords(int x, int y) const {
+    std::vector<Coords> neighbours;
+    addNeighbour(x, y - 1, neighbours); // Left
+    addNeighbour(x - 1, y, neighbours); // Up
+    addNeighbour(x, y + 1, neighbours); // Right
+    addNeighbour(x + 1, y, neighbours); // Down
+    return neighbours;
+}
+
+void Maze::addNeighbour(int x, int y, std::vector<MazeBox>& neighbours) const {
     if (!isOutOfBound(x, y)) {
         neighbours.push_back(boxes[x][y]);
+    }
+    return;
+}
+
+void Maze::addNeighbour(int x, int y, std::vector<Coords>& neighbours) const {
+    if (!isOutOfBound(x, y)) {
+        neighbours.push_back(Coords{static_cast<unsigned short>(x), static_cast<unsigned short>(y)});
     }
     return;
 }
