@@ -1,7 +1,7 @@
 #include "headers/mazeBox.hpp"
 
 // Constructor
-MazeBox::MazeBox(int x, int y, const char& type)
+MazeBox::MazeBox(unsigned short x, unsigned short y, const char& type)
     : x(x), y(y), type(type) {
     coords.x = x;
     coords.y = y;
@@ -10,10 +10,10 @@ MazeBox::MazeBox(int x, int y, const char& type)
 
 // Methods *********************************************************************
 // Getters
-int MazeBox::getX() const {
+unsigned short MazeBox::getX() const {
     return x;
 }
-int MazeBox::getY() const {
+unsigned short MazeBox::getY() const {
     return y;
 }
 Coords MazeBox::getCoords() const {

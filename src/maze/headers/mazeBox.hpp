@@ -3,17 +3,17 @@
 
 
 typedef struct {
-    int x;
-    int y;
+    unsigned short x;
+    unsigned short y;
 } Coords;
 
 class MazeBox {
 public:
     // Constructor
-    MazeBox(int x, int y, const char& type);
+    MazeBox(unsigned short x, unsigned short y, const char& type);
     // Getters
-    int getX() const;
-    int getY() const;
+    unsigned short getX() const;
+    unsigned short getY() const;
     Coords getCoords() const;
     char getType() const;
     // Setters
@@ -23,8 +23,8 @@ public:
     bool operator!=(const MazeBox& other) const;
 
 private:
-    int x; // row
-    int y; // col
+    unsigned short x; // row
+    unsigned short y; // col
     char type; // '#' for wall, 'S' for start, 'E' for end, '*' for empty
     Coords coords;
 };

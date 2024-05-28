@@ -1,6 +1,6 @@
 #include "headers/maze.hpp"
 // Constructor
-Maze::Maze(int rows, int cols)
+Maze::Maze(unsigned short rows, unsigned short cols)
     : rows(rows), cols(cols) {
     setUpEmptyMaze();
     }
@@ -9,10 +9,10 @@ Maze::Maze() : rows(0), cols(0), boxes() {}
 
 void Maze::setUpEmptyMaze() {
     boxes.reserve(rows);
-    for (int i = 0; i < rows; i++) {
+    for (unsigned short i = 0; i < rows; i++) {
         std::vector<MazeBox> row;
         row.reserve(cols);
-        for (int j = 0; j < cols; j++) {
+        for (unsigned short j = 0; j < cols; j++) {
             row.emplace_back(MazeBox(i, j, '*'));
         }
         boxes.push_back(move(row));
@@ -42,7 +42,9 @@ const std::vector<MazeBox> Maze::getNeighbours(const MazeBox& box) const {
     return neighbours;
 }
 
-void Maze::addNeighbour(int x, int y, std::vector<MazeBox>& neighbours) const {
+void Maze::addNeighbour(unsigned short x, unsigned short y, std::vector<MazeBox>& neighbours) const {
+    x = static_cast<int>(x);
+    y = static_cast<int>(y);
     if (!isOutOfBound(x, y)) {
         neighbours.push_back(boxes[x][y]);
     }
@@ -139,20 +141,24 @@ std::string Maze::to_string() const {
 
 // Methods *********************************************************************
 // Getters
-int Maze::getHeight() const {
+unsigned short Maze::getHeight() const {
     return rows;
 }
-int Maze::getWidth() const {
+unsigned short Maze::getWidth() const {
     return cols;
 }
 const std::vector<std::vector<MazeBox>>& Maze::getBoxes() const {
     return boxes;
 }
+const MazeBox& Maze::getBox(unsigned short x, unsigned short y) const {
+    return boxes[x][y];
+}
+
 const MazeBox& Maze::getBox(int x, int y) const {
     return boxes[x][y];
 }
 
 // Setters
-void Maze::setBox(int row, int col, const char& type) {
+void Maze::setBox(unsigned short row, unsigned short col, const char& type) {
     boxes[row][col].setType(type);
 }

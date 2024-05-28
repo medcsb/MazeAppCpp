@@ -11,7 +11,7 @@
 class Maze{
 public:
 // Constructor
-Maze(int rows, int cols);
+Maze(unsigned short rows, unsigned short cols);
 Maze();
 
 void setUpEmptyMaze();
@@ -19,7 +19,7 @@ void setUpEmptyMaze();
 
 void printMaze() const;
 const std::vector<MazeBox> getNeighbours(const MazeBox& box) const;
-void addNeighbour(int x, int y, std::vector<MazeBox>& neighbours) const;
+void addNeighbour(unsigned short x, unsigned short y, std::vector<MazeBox>& neighbours) const;
 bool isOutOfBound(int x, int y) const;
 void saveToFile(const std::string& fileName) const;
 void loadFromFile(const std::string& fileName);
@@ -29,16 +29,17 @@ std::string to_string() const;
 
 // Methods *********************************************************************
 // Getters
-int getHeight() const;
-int getWidth() const;
+unsigned short getHeight() const;
+unsigned short getWidth() const;
 const std::vector<std::vector<MazeBox>>& getBoxes() const;
+const MazeBox& getBox(unsigned short x, unsigned short y) const;
 const MazeBox& getBox(int x, int y) const;
 // Setters
-void setBox(int x, int y, const char& type);
+void setBox(unsigned short x, unsigned short y, const char& type);
 
 private:
-    int rows;
-    int cols;
+    unsigned short rows;
+    unsigned short cols;
     std::vector<std::vector<MazeBox>> boxes;
 };
 
