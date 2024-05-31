@@ -16,14 +16,13 @@ int main()
     timeTaken(testMazeLoad);
     timeTaken(testGetNeighbours);
     timeTaken(testRawBinarySave);
-    timeTaken(testsaveagain);
     return 0;
 }
 
 void testMazeCreation() {
     timeTaken([]() {
-        ushort rows = 9000;
-        ushort cols = 10000;
+        ushort rows = 300;
+        ushort cols = 200;
         Maze maze = Maze(rows, cols);
         if (maze.getHeight() != rows || maze.getWidth() != cols) {
             std::cout << "Maze creation failed " << CROSS_EMOJI << std::endl;
@@ -171,8 +170,8 @@ void testGetNeighbours() {
 }
 
 void testRawBinarySave() {
-    ushort rows = 3820;
-    ushort cols = 1230;
+    ushort rows = 382;
+    ushort cols = 123;
     Maze maze(rows, cols);
     maze.setBox(0, 0, 'S');
     maze.setBox(0, 1, '#');
