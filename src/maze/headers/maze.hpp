@@ -36,6 +36,8 @@ ushort getWidth() const;
 const std::vector<std::vector<MazeBox>>& getBoxes() const;
 const MazeBox& getBox(ushort x, ushort y) const;
 const MazeBox& getBox(int x, int y) const;
+Coords getStart() const;
+Coords getEnd() const;
 // Setters
 void setBox(ushort x, ushort y, const char& type);
 
@@ -43,6 +45,8 @@ private:
     ushort rows;
     ushort cols;
     std::vector<std::vector<MazeBox>> boxes;
+    Coords start;
+    Coords end;
 };
 
 #endif // MAZE_HPP

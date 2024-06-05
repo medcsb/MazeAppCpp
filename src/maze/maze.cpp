@@ -183,6 +183,14 @@ const MazeBox& Maze::getBox(int x, int y) const {
     return boxes[x][y];
 }
 
+Coords Maze::getStart() const {
+    return start;
+}
+
+Coords Maze::getEnd() const {
+    return end;
+}
+
 // Setters
 void Maze::setBox(ushort row, ushort col, const char& type) {
     boxes[row][col].setType(type);
